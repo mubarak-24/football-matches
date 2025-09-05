@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Football Digest — PWA</title>
+
+  <!-- Optional PWA bits (ok if files are missing; it’ll just no-op) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b5cff" />
+
+  <!-- Base styles -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* tiny inline styles so we see something even if styles.css is empty */
+    :root { color-scheme: light dark; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 24px; max-width: 900px;
+    }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    h1 { margin: 0; font-size: 22px; }
+    .row { display: flex; gap: 8px; align-items: center; margin: 12px 0; flex-wrap: wrap; }
+    input[type="date"] { padding: 6px 8px; }
+    button { padding: 6px 10px; cursor: pointer; border-radius:8px; border:1px solid #9993; background:transparent; }
+    button:hover { background: #9991; }
+    #status { opacity: .8; }
+    ul { list-style: none; padding: 0; margin: 12px 0 0; }
+    li { padding: 10px 12px; border: 1px solid #9993; border-radius: 8px; margin-bottom: 8px; }
+    .muted { opacity: .75; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .sep { height:1px; background:#9993; margin:12px 0; border-radius:1px; }
+    .tip { font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Football Digest</h1>
+    <div class="tip muted">API: <span class="mono">http://127.0.0.1:8000</span></div>
+  </header>
+
+  <div class="row">
+    <label for="date">Date:</label>
+    <input id="date" type="date" />
+    <button id="btnToday" type="button">Today</button>
+    <button id="btnLoad" type="button">Load</button>
+    <span id="status" class="muted mono" aria-live="polite"></span>
+  </div>
+
+  <div class="sep" role="separator" aria-hidden="true"></div>
+
+  <ul id="list" aria-live="polite" aria-busy="false"></ul>
+
+  <noscript>
+    <p class="muted">This page requires JavaScript to fetch and show matches.</p>
+  </noscript>
+
+  <!-- Your frontend logic (talks to /api on port 8000) -->
+  <script defer src="app.js"></script>
+
+  <!-- Optional SW registration; safe if service-worker.js isn’t present -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

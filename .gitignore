@@ -1,2 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+data/*.db
 .env
-.env.example
+.vscode/
+.DS_Store
